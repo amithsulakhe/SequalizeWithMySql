@@ -177,7 +177,7 @@ db.interview.belongsTo(db.candidate, {
   targetKey: "id",
 });
 
-// Define associations
+// Define associationssfa
 db.jobpost.hasMany(db.interview, { foreignKey: "jpid", sourceKey: "id" });
 db.interview.belongsTo(db.jobpost, {
   foreignKey: "jpid",
