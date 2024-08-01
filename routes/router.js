@@ -502,4 +502,57 @@ router.route("/sub-queries").get(async (req, res) => {
   }
 });
 
+router.route("/tester").get(async (req, res) => {
+  try {
+    // const candidate1 = await db.candidate.create({
+    //   name: "Alice Smith",
+    //   email: "alice.smith@example.com",
+    // });
+
+    // const candidate2 = await db.candidate.create({
+    //   name: "Bob Johnson",
+    //   email: "bob.johnson@example.com",
+    // });
+
+    // const jobPost1 = await db.jobpost.create({
+    //   jobName: "React js",
+    // });
+
+    // const jobPost2 = await db.jobpost.create({
+    //   jobName: "Java",
+    // });
+
+    // // // Insert interviews
+    // await db.interview.create({
+    //   date: new Date("2024-08-01T10:00:00"),
+    //   candid: 2,
+    //   jpid: 1,
+    // });
+
+    // await db.interview.create({
+    //   date: new Date("2024-08-02T14:00:00"),
+    //   candid: 2,
+    //   jpid: 2,
+    // });
+
+    const data = await db.interview.findAll({
+      include: [
+        {
+          model: db.candidate,
+          as: "_candid",
+        },
+        {
+          model: db.jobpost,
+          as: "_jpid",
+        },
+      ],
+    });
+    res.status(400).json({ data });
+
+    console.log("Database seeded successfully.");
+  } catch (error) {
+    res.status(400).json({ msg: "something went wrong" });
+  }
+});
+
 module.exports = router;

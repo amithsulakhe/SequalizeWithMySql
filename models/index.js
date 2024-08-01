@@ -26,6 +26,10 @@ db.image = require("./image")(sequelize);
 db.video = require("./video")(sequelize);
 db.comment = require("./comment")(sequelize);
 
+db.candidate = require("./candidate")(sequelize);
+db.interview = require("./interview")(sequelize);
+db.jobpost = require("./jobpost")(sequelize);
+
 // db.author = require("./author")(sequelize);
 // db.bio = require("./biography")(sequelize);
 // db.des = require("./description")(sequelize);
@@ -164,6 +168,22 @@ db.reaction = sequelize.define(
 
 db.post.hasMany(db.reaction);
 db.reaction.belongsTo(db.post);
+
+// Define associations
+db.candidate.hasMany(db.interview, { foreignKey: "candid", sourceKey: "id" });
+db.interview.belongsTo(db.candidate, {
+  foreignKey: "candid",
+  as: "_candid",
+  targetKey: "id",
+});
+
+// Define associations
+db.jobpost.hasMany(db.interview, { foreignKey: "jpid", sourceKey: "id" });
+db.interview.belongsTo(db.jobpost, {
+  foreignKey: "jpid",
+  as: "_jpid",
+  targetKey: "id",
+});
 
 db.sequelize.sync({ force: false });
 module.exports = db;
